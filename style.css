@@ -164,7 +164,12 @@ nav h1 {
 }
 /* Portfolio styles */
 .content h1 {
-  color: black;
+  margin: 0;
+  font-size: clamp(4rem, 10vw, 7rem);
+  line-height: 0.9;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
 }
 
 #portfolio {
