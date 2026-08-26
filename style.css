@@ -147,7 +147,7 @@ nav h1 {
 }
 
 .nav-li a {
-  color: black;
+  color: black
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
@@ -164,12 +164,19 @@ nav h1 {
 }
 /* Portfolio styles */
 .content h1 {
+  color: coral;
   margin: 6;
   font-size: clamp(4rem, 10vw, 7rem);
   line-height: 0.9;
   font-weight: 900;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+}
+
+.content h2 {
+  color: coral;
+  margin: 4;
+   font-size: clamp(2em, 5vw, 4rem)
 }
 
 #portfolio {
