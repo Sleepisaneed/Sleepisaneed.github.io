@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  background:greenyellow;
+  background:darkgreen;
   color: #222;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
@@ -40,12 +40,12 @@ h2 {
   font-weight: 900;
   letter-spacing: -0.04em;
   text-transform: uppercase;
-  color: black; /* bright accent */
+  color: coral;
 }
 
 .content > p {
   margin: 0;
-  color: darkgreen;
+  color: coral;
   font-size: 1.0rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -64,7 +64,7 @@ h2 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: darkgreen;
+  color: coral;
 }
 
 #interests ul {
@@ -77,12 +77,12 @@ h2 {
 }
 
 #interests li {
-  color: lightcoral;
+  color: coral;
   font-size: 1rem;
   font-weight: 600;
   padding: 10px 20px;
   background: darkgreen;
-  border: 1px solid lightcoral;
+  border: 1px solid coral;
   border-radius: 100px;
   transition:
     background 0.25s ease,
@@ -92,9 +92,9 @@ h2 {
 }
 
 #interests li:hover {
-  background: lightcoral;
-  color: darkgreen;
-  border-color: darkgreen;
+  background: black;
+  color: coral;
+  border-color: coral;
   transform: translateY(-2px);
 }
 .sidebar-img {
@@ -124,7 +124,7 @@ nav {
   align-items: center;
   margin-bottom: 48px;
   padding: 16px 24px;
-  background: lightcoral;
+  background: coral;
   border: 1px solid darkgreen;
   border-radius: 12px;
 }
@@ -159,8 +159,8 @@ nav h1 {
 }
 
 .nav-li a:hover {
-  background: darkgreen;
-  color: lightcoral;
+  background: black;
+  color: coral;
 }
 /* Portfolio styles */
 .content h1 {
@@ -192,19 +192,19 @@ nav h1 {
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
-  color: #444;
+  color: coral;
   padding: 16px 20px;
   font-size: 1.1rem;
   font-weight: 500;
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: darkgreen;
+  border: 1px solid coral;
   border-radius: 12px;
   transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 
 #portfolio a:hover {
-  background: #000;
-  color: #fff;
+  background: black;
+  color: coral;
   transform: translateX(4px);
 }
 
