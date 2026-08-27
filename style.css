@@ -135,7 +135,7 @@ nav h1 {
   font-weight: 700;
   text-transform:uppercase;
   letter-spacing: 0.2em;
-  color: #000;
+  color: darkgreen;
 }
 
 #nav-ul {
@@ -147,7 +147,9 @@ nav h1 {
 }
 
 .nav-li a {
-  color: black;
+  color: coral;
+  background-color: darkgreen;
+
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
