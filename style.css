@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  background:darkgreen;
+  background: darkgreen;
   color: #222;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
@@ -46,7 +46,7 @@ h2 {
 .content > p {
   margin: 0;
   color: coral;
-  font-size: 1.0rem;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -85,9 +85,9 @@ h2 {
   border: 1px solid coral;
   border-radius: 100px;
   transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease;
+    background 1s ease,
+    color 1s ease,
+    transform 1s ease;
   cursor: default;
 }
 
@@ -107,9 +107,9 @@ h2 {
   filter: grayscale(0%);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   transition:
-    filter 0.4s ease,
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+    filter 5s ease,
+    transform 1s ease,
+    box-shadow 1s ease;
 }
 
 .sidebar-img:hover {
@@ -133,7 +133,7 @@ nav h1 {
   margin: 0;
   font-size: 0.8rem;
   font-weight: 700;
-  text-transform:uppercase;
+  text-transform: uppercase;
   letter-spacing: 0.2em;
   color: darkgreen;
 }
@@ -156,8 +156,8 @@ nav h1 {
   padding: 6px 14px;
   border-radius: 8px;
   transition:
-    background 0.25s ease,
-    color 0.25s ease;
+    background 1s ease,
+    color 1s ease;
 }
 
 .nav-li a:hover {
@@ -178,7 +178,7 @@ nav h1 {
 .content h2 {
   color: coral;
   margin: 4;
-   font-size: clamp(2em, 5vw, 4rem)
+  font-size: clamp(2em, 5vw, 4rem);
 }
 
 #portfolio {
@@ -187,13 +187,13 @@ nav h1 {
   padding: 0;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
   gap: 8px;
 }
 
 #portfolio li {
   border-radius: 12px;
-  overflow: hidden;
+  overflow: unset;
 }
 
 #portfolio a {
@@ -208,7 +208,10 @@ nav h1 {
   background: darkgreen;
   border: 1px solid coral;
   border-radius: 12px;
-  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition:
+    background 1s ease,
+    color 1s ease,
+    transform 1s ease;
 }
 
 #portfolio a:hover {
@@ -221,7 +224,7 @@ nav h1 {
   content: "->";
   font-size: 0.85rem;
   opacity: 0.4;
-  transition: opacity 0.25s ease;
+  transition: opacity 1s ease;
   white-space: nowrap;
 }
 
