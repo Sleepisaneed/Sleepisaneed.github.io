@@ -3,9 +3,27 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Bouncing Box</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bouncing Box | Reflex Run</title>
   <script src="jquery.min.js"></script>
   <style>
+    :root {
+      --ink: #fff7f0;
+      --muted: #f7b8a3;
+      --accent: #ffcf56;
+      --panel: rgba(35, 8, 22, 0.72);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
     .box {
       width: 70px;
       height: 70px;
@@ -20,20 +38,185 @@
       top: 100px;
       /* Change me! */
       left: 0px;
+      cursor: crosshair;
+      z-index: 2;
+      border: 3px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+      transition: background-color 180ms ease, transform 100ms ease;
+    }
+
+    .box:active {
+      transform: scale(0.9);
     }
 
     .board {
       height: 100vh;
+      min-height: 420px;
+      position: relative;
       background-color: #AB0A30;
-      background-image: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.12), transparent 35%);
+      background-image:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.14), transparent 35%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.14) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.14) 50%, rgba(0, 0, 0, 0.14) 75%, transparent 75%);
+      background-size: auto, 48px 48px;
+    }
+
+    .hud {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px clamp(20px, 5vw, 72px);
+      color: var(--ink);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--accent);
+      font: 700 0.75rem/1.2 Arial, sans-serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hud h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .stat {
+      min-width: 74px;
+      padding: 10px 12px;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--accent);
+      font: 700 1.5rem/1 Arial, sans-serif;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font: 700 0.65rem/1 Arial, sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(22, 3, 14, 0.46);
+    }
+
+    .modal {
+      width: min(440px, 100%);
+      padding: 34px;
+      color: var(--ink);
+      text-align: center;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal h2 {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      line-height: 0.95;
+    }
+
+    .modal p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font: 1rem/1.5 Arial, sans-serif;
+    }
+
+    button {
+      padding: 12px 22px;
+      color: #230816;
+      font: 700 0.85rem Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--accent);
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ffe49a;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 560px) {
+      .hud {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats {
+        width: 100%;
+      }
+
+      .stat {
+        flex: 1;
+      }
     }
   </style>
   <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 </head>
 
 <body class="board">
-  <!-- HTML for the box -->
+  <header class="hud">
+    <div>
+      <p class="eyebrow">Reflex run</p>
+      <h1>Bouncing Box</h1>
+    </div>
+    <div class="stats" aria-live="polite">
+      <div class="stat"><strong id="score">0</strong><span>Score</span></div>
+      <div class="stat"><strong id="misses">0</strong><span>Misses / 10</span></div>
+      <div class="stat"><strong id="best">0</strong><span>Best</span></div>
+    </div>
+  </header>
+
   <div class="box">?</div>
+
+  <div class="overlay" id="start-screen">
+    <section class="modal">
+      <h2>Catch the box.</h2>
+      <p>Click the moving box to score. Every hit makes it faster. Ten missed clicks ends the run.</p>
+      <button id="start-button" type="button">Start run</button>
+    </section>
+  </div>
+
+  <div class="overlay hidden" id="game-over-screen">
+    <section class="modal">
+      <h2>Run over.</h2>
+      <p id="final-score">You scored 0 points.</p>
+      <button id="restart-button" type="button">Try again</button>
+    </section>
+  </div>
 
   <script>
     (function () {
@@ -57,20 +240,21 @@
         boardHeight = board.height();
       });
 
-      // Every 50 milliseconds, call the update Function (see below)
-      var interval = setInterval(update, 50);
+      var interval;
 
       // Every time the box is clicked, call the handleBoxClick Function (see below)
       box.on("click", handleBoxClick);
       board.on("click", function (event) {
-        if (!jQuery(event.target).closest(".box").length) {
+        if (!jQuery(event.target).closest(".box, .modal").length && gameRunning) {
           misses = misses + 1;
-          changeBoxText("Misses: " + misses);
+          updateHud();
           if (misses >= 10) {
             endGame();
           }
         }
       });
+
+      jQuery("#start-button, #restart-button").on("click", startGame);
 
       // moves the Box to a new position on the screen along the X-Axis
       function moveBoxTo(newPositionX, newPositionY) {
@@ -88,12 +272,14 @@
       //////////////////////////////////////////////////////////////////
 
       // TODO 2 - Variable declarations
-      var positionx = 870;
+      var positionx = 0;
       var positionY = 100;
       var points = 0;
       var misses = 0;
       var speed = 10;
       var speedY = 8;
+      var best = Number(localStorage.getItem("bouncingBoxBest")) || 0;
+      var gameRunning = false;
 
       function getRandomColor() {
         var red = Math.floor(Math.random() * 256);
@@ -104,7 +290,31 @@
 
       function endGame() {
         clearInterval(interval);
-        changeBoxText("Game over");
+        gameRunning = false;
+        box.addClass("hidden");
+        jQuery("#final-score").text("You scored " + points + " point" + (points === 1 ? "" : "s") + ".");
+        jQuery("#game-over-screen").removeClass("hidden");
+      }
+
+      function startGame() {
+        clearInterval(interval);
+        points = 0;
+        misses = 0;
+        speed = 10;
+        speedY = 8;
+        positionx = Math.max(0, (boardWidth - boxWidth) / 2);
+        positionY = Math.max(0, (boardHeight - boxHeight) / 2);
+        gameRunning = true;
+        box.removeClass("hidden");
+        jQuery("#start-screen, #game-over-screen").addClass("hidden");
+        updateHud();
+        interval = setInterval(update, 50);
+      }
+
+      function updateHud() {
+        jQuery("#score").text(points);
+        jQuery("#misses").text(misses);
+        jQuery("#best").text(best);
       }
 
       /**
@@ -118,9 +328,11 @@
         positionY = positionY + speedY;
         if (positionx > boardWidth - boxWidth || positionx < 0) {
           speed = speed * -1;
+          positionx = Math.max(0, Math.min(positionx, boardWidth - boxWidth));
         }
         if (positionY > boardHeight - boxHeight || positionY < 0) {
           speedY = speedY * -1;
+          positionY = Math.max(0, Math.min(positionY, boardHeight - boxHeight));
         }
       }
 
@@ -132,12 +344,20 @@
        * - move the box to the left side of the screen.
        */
       function handleBoxClick() {
+        if (!gameRunning) {
+          return;
+        }
         points = points + 1;
         positionx = Math.random() * (boardWidth - boxWidth);
         positionY = Math.random() * (boardHeight - boxHeight);
         box.css("background-color", getRandomColor());
         changeBoxText(points);
         speed = speed + (points % 3 === 0 ? 6 : 3);
+        if (points > best) {
+          best = points;
+          localStorage.setItem("bouncingBoxBest", best);
+        }
+        updateHud();
       }
 
 
