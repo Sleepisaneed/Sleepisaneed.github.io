@@ -54,10 +54,23 @@
       min-height: 420px;
       position: relative;
       background-color: #AB0A30;
+      isolation: isolate;
+    }
+
+    .board::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
       background-image:
         radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.14), transparent 35%),
         linear-gradient(135deg, rgba(0, 0, 0, 0.14) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.14) 50%, rgba(0, 0, 0, 0.14) 75%, transparent 75%);
       background-size: auto, 48px 48px;
+      transition: transform 450ms ease;
+    }
+
+    .board.flipped::before {
+      transform: scaleX(-1);
     }
 
     .hud {
@@ -89,6 +102,14 @@
       display: flex;
       gap: 10px;
       text-align: center;
+    }
+
+    .hud-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      pointer-events: auto;
     }
 
     .stat {
@@ -165,6 +186,20 @@
       background: #ffe49a;
     }
 
+    .flip-button {
+      padding: 8px 12px;
+      color: var(--ink);
+      font-size: 0.7rem;
+      background: rgba(35, 8, 22, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .flip-button:hover,
+    .flip-button[aria-pressed="true"] {
+      color: #230816;
+      background: var(--accent);
+    }
+
     .hidden {
       display: none;
     }
@@ -193,10 +228,13 @@
       <p class="eyebrow">Reflex run</p>
       <h1>Bouncing Box</h1>
     </div>
-    <div class="stats" aria-live="polite">
-      <div class="stat"><strong id="score">0</strong><span>Score</span></div>
-      <div class="stat"><strong id="misses">0</strong><span>Misses / 10</span></div>
-      <div class="stat"><strong id="best">0</strong><span>Best</span></div>
+    <div class="hud-controls">
+      <div class="stats" aria-live="polite">
+        <div class="stat"><strong id="score">0</strong><span>Score</span></div>
+        <div class="stat"><strong id="misses">0</strong><span>Misses / 10</span></div>
+        <div class="stat"><strong id="best">0</strong><span>Best</span></div>
+      </div>
+      <button class="flip-button" id="flip-button" type="button" aria-pressed="false">Flip axis</button>
     </div>
   </header>
 
@@ -255,6 +293,10 @@
       });
 
       jQuery("#start-button, #restart-button").on("click", startGame);
+      jQuery("#flip-button").on("click", function () {
+        var isFlipped = board.toggleClass("flipped").hasClass("flipped");
+        jQuery(this).attr("aria-pressed", isFlipped);
+      });
 
       // moves the Box to a new position on the screen along the X-Axis
       function moveBoxTo(newPositionX, newPositionY) {
