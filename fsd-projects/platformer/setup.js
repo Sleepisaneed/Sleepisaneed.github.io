@@ -97,27 +97,21 @@ let animationDetails = {};
 
 var collectableList = {
   database: {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQJASAhqUofz5C0zFJIc8aJ7wdqzhaYQuZSwHN-JlvLw-I8Uf9qQGIR8E&s=10",
+    image: "../../favicon.svg",
   },
   diamond: {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQJASAhqUofz5C0zFJIc8aJ7wdqzhaYQuZSwHN-JlvLw-I8Uf9qQGIR8E&s=10",
+    image: "../../favicon.svg",
   },
   grace: {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQJASAhqUofz5C0zFJIc8aJ7wdqzhaYQuZSwHN-JlvLw-I8Uf9qQGIR8E&s=10",
+    image: "../../favicon.svg",
   },
   kennedi: {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQJASAhqUofz5C0zFJIc8aJ7wdqzhaYQuZSwHN-JlvLw-I8Uf9qQGIR8E&s=10",
+    image: "../../favicon.svg",
   },
   max: {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQJASAhqUofz5C0zFJIc8aJ7wdqzhaYQuZSwHN-JlvLw-I8Uf9qQGIR8E&s=10",
+    image: "../../favicon.svg",
   },
   steve: {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQJASAhqUofz5C0zFJIc8aJ7wdqzhaYQuZSwHN-JlvLw-I8Uf9qQGIR8E&s=10",
+    image: "../../favicon.svg",
   },
 };

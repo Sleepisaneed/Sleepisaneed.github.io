@@ -234,7 +234,7 @@
         <div class="stat"><strong id="misses">0</strong><span>Misses / 10</span></div>
         <div class="stat"><strong id="best">0</strong><span>Best</span></div>
       </div>
-      <button class="flip-button" id="flip-button" type="button" aria-pressed="false">Flip axis</button>
+      <button class="flip-button" id="flip-button" type="button" aria-pressed="false">Flip</button>
     </div>
   </header>
 
@@ -283,7 +283,7 @@
       // Every time the box is clicked, call the handleBoxClick Function (see below)
       box.on("click", handleBoxClick);
       board.on("click", function (event) {
-        if (!jQuery(event.target).closest(".box, .modal").length && gameRunning) {
+        if (!jQuery(event.target).closest(".box, .modal, #flip-button").length && gameRunning) {
           misses = misses + 1;
           updateHud();
           if (misses >= 10) {

@@ -205,6 +205,10 @@ nav h1 {
     gap: 16px;
   }
 
+  #nav-ul {
+    flex-wrap: wrap;
+  }
+
   main {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -277,6 +281,8 @@ nav h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  overflow-wrap: anywhere;
   text-decoration: none;
   color: coral;
   padding: 16px 20px;
@@ -307,4 +313,68 @@ nav h1 {
 
 #portfolio a:hover::after {
   opacity: 1;
+}
+
+.schedule-main {
+  display: block;
+  min-height: auto;
+}
+
+.schedule-content {
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.schedule-content h1 {
+  margin: 0 0 10px;
+  color: coral;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.schedule-content > p {
+  margin: 0 0 28px;
+  color: #ffe2d7;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-box {
+  min-height: 165px;
+  padding: clamp(22px, 4vw, 36px);
+  color: #ffe2d7;
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid coral;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+}
+
+.schedule-box h2 {
+  margin: 0 0 18px;
+  color: coral;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.schedule-box p {
+  margin: 8px 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.schedule-box strong {
+  margin-right: 4px;
+  color: #fff;
 }
