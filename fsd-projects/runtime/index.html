@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Runtime Neo</title>
-    <link rel="stylesheet" href="runtime.css" />
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <script src="setup.js"></script>
-    <script src="levels.js"></script>
-    <script src="scenery.js"></script>
-    <script src="student.js"></script>
-    <script src="main.js"></script>
-  </head>
-  <body id="body">
-    <canvas id="gameCanvas" width="1400" height="750"></canvas>
-    <img id="player" src="images/halle.png" />
-    <img id="projectile" src="images/projectile.png" />
-    <img id="basicPlatform" src="images/interactable/basicPlatform.png" />
-    <img id="spikes" src="images/interactable/spikes.png" />
-    <img id="bug" src="images/interactable/bug.png" />
-    <img id="healthUp" src="images/interactable/healthUp.png" />
-    <img id="flag" src="images/interactable/flag.png" />
-    <img id="moon" src="images/backgrounds/moon.png" />
-    <img id="building" src="images/backgrounds/building.png" />
-    <img id="lamp" src="images/backgrounds/lamp.png" />
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Runtime Neo</title>
+  <link rel="stylesheet" href="runtime.css" />
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <script src="setup.js"></script>
+  <script src="levels.js"></script>
+  <script src="scenery.js"></script>
+  <script src="student.js"></script>
+  <script src="main.js"></script>
+</head>
+
+<body id="body">
+  <div style="position: fixed; top: 20px; right: 20px; z-index: 20;">
+    <a href="../../index.html"
+      style="display: inline-block; padding: 8px 12px; color: #f8f5ed; font: 700 0.72rem/1.2 Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; background: rgba(255, 196, 92, 0.14); border: 1px solid rgba(255, 196, 92, 0.6); border-radius: 6px; transition: background 180ms ease, transform 180ms ease;">Back
+      to Home</a>
+  </div>
+  <canvas id="gameCanvas" width="1400" height="750"></canvas>
+  <img id="player" src="images/halle.png" />
+  <img id="projectile" src="images/projectile.png" />
+  <img id="basicPlatform" src="images/interactable/basicPlatform.png" />
+  <img id="spikes" src="images/interactable/spikes.png" />
+  <img id="bug" src="images/interactable/bug.png" />
+  <img id="healthUp" src="images/interactable/healthUp.png" />
+  <img id="flag" src="images/interactable/flag.png" />
+  <img id="moon" src="images/backgrounds/moon.png" />
+  <img id="building" src="images/backgrounds/building.png" />
+  <img id="lamp" src="images/backgrounds/lamp.png" />
+</body>
+
 </html>

@@ -17,6 +17,34 @@ var init = function (window) {
 
     // TODO 1 : Declare and initialize our variables
     var circles = [];
+    var baseCircleCount = 50;
+    var multiplierInput = document.getElementById("ball-multiplier");
+
+    function getBallMultiplier() {
+      if (!multiplierInput) {
+        return 1;
+      }
+
+      var value = parseInt(multiplierInput.value, 10);
+      if (!isFinite(value) || value < 1) {
+        return 1;
+      }
+
+      return Math.min(value, 10);
+    }
+
+    function rebuildCircles() {
+      for (var i = 0; i < circles.length; i++) {
+        view.removeChild(circles[i]);
+      }
+
+      circles = [];
+
+      var totalCircles = baseCircleCount * getBallMultiplier();
+      for (var j = 0; j < totalCircles; j++) {
+        drawCircle();
+      }
+    }
 
     // TODO 2 : Create a function that draws a circle
     function drawCircle() {
@@ -29,8 +57,16 @@ var init = function (window) {
     // TODO 3 : Call the drawCircle() function
 
     // TODO 7 : Use a loop to create multiple circles
-    for (var i = circles.length; i < 50; i++) {
-      drawCircle();
+    rebuildCircles();
+
+    if (multiplierInput) {
+      multiplierInput.addEventListener("input", function () {
+        var value = parseInt(multiplierInput.value, 10);
+        if (value > 10) {
+          multiplierInput.value = 10;
+        }
+        rebuildCircles();
+      });
     }
 
     ///////////////////

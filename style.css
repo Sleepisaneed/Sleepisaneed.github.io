@@ -4,21 +4,129 @@
 
 body {
   margin: 0;
-  background-color: #063b2f;
+  background-color: #020d1a;
   background-image:
     linear-gradient(rgba(255, 127, 80, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 127, 80, 0.08) 1px, transparent 1px);
   background-size: 32px 32px;
   color: #222;
   font-family: "Helvetica Neue", Arial, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  background-attachment: fixed;
+}
+
+#space-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  opacity: 0.95;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 138, 29, 0.06),
+      transparent 55%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(2, 13, 26, 0.28) 0%,
+      rgba(3, 26, 35, 0.45) 35%,
+      rgba(2, 13, 26, 0.8) 100%
+    );
+}
+
+.space-dot {
+  position: absolute;
+  left: -10vw;
+  top: var(--top);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #ffd9a3 0%,
+    #ffb347 26%,
+    #ff8a1d 58%,
+    #ff5b00 82%,
+    rgba(255, 91, 0, 0) 100%
+  );
+  box-shadow:
+    0 0 10px rgba(255, 180, 71, 0.95),
+    0 0 22px rgba(255, 118, 0, 0.9),
+    0 0 34px rgba(255, 120, 0, 0.38);
+  opacity: 0;
+  transform: rotate(var(--angle));
+  animation: space-fly var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+.space-dot::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--size) / 2 - 1px);
+  left: calc(var(--size) * -2.5);
+  width: calc(var(--size) * 5.5);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 91, 0, 0),
+    rgba(255, 180, 71, 0.95),
+    rgba(255, 120, 0, 0.8),
+    rgba(255, 91, 0, 0)
+  );
+  border-radius: 999px;
+  filter: blur(1px);
+  transform: rotate(var(--angle));
+  opacity: 0.9;
+}
+
+@keyframes space-fly {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.4);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate3d(24vw, calc(var(--drift) * -0.35), 0) scale(0.9);
+    opacity: 1;
+  }
+  55% {
+    transform: translate3d(62vw, var(--drift), 0) scale(1.15);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(120vw, calc(var(--drift) * 1.7), 0) scale(0.7);
+    opacity: 0;
+  }
 }
 
 #all-contents {
+  position: relative;
+  z-index: 1;
   max-width: 1500px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 32px 40px;
+  opacity: 0;
+  transform: translateX(-120px);
+  animation: page-enter 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
+
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(-120px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
 main {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(420px, 1.6fr);
@@ -129,14 +237,14 @@ nav {
   margin-bottom: 48px;
   padding: 16px 24px;
   background: coral;
-  border: 1px solid darkgreen;
+  border: 1px solid transparent;
   border-radius: 12px;
 }
 
 nav h1 {
   margin: 0;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: #063b2f;
@@ -174,6 +282,21 @@ nav h1 {
   background: #ff7f50;
   border-radius: 12px;
   overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+  border: 2px solid transparent;
+}
+
+.image-gallery figure:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+.image-gallery figure:focus-within {
+  border-color: coral;
 }
 
 .image-gallery img {
@@ -181,17 +304,44 @@ nav h1 {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: transform 300ms ease;
+  transition:
+    transform 300ms ease,
+    filter 300ms ease;
 }
 
 .image-gallery figure:hover img {
   transform: scale(1.04);
+  filter: saturate(1.1);
 }
 
 .image-gallery figcaption {
   padding: 12px 14px;
   color: #063b2f;
   font-weight: 700;
+}
+
+.gallery-reset-btn {
+  margin-top: 24px;
+  border: 1px solid coral;
+  background: rgba(255, 127, 80, 0.14);
+  color: coral;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 250ms ease,
+    transform 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.gallery-reset-btn:hover {
+  background: rgba(255, 127, 80, 0.24);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width: 720px) {
@@ -233,7 +383,7 @@ nav h1 {
 
   text-decoration: none;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 800;
   padding: 6px 14px;
   border-radius: 8px;
   transition:
