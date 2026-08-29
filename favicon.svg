@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#063b2f"/>
-  <path d="M18 18c18 0 25 8 25 17 0 10-8 17-25 17 11-5 14-11 14-17 0-7-3-12-14-17Z" fill="#ff7f50"/>
+  <rect width="64" height="64" fill="#020d1a"/>
+
+  <g stroke="#ff7f50" stroke-width="2" stroke-linecap="square">
+    <path d="M21.333 0V64M42.666 0V64M0 21.333H64M0 42.666H64"/>
+  </g>
+
+  <text x="32" y="39" text-anchor="middle" font-size="20" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#ff7f50">M</text>
 </svg>

@@ -233,12 +233,35 @@ main {
 }
 h2 {
   margin: 0;
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.2em;
   font-size: clamp(4rem, 10vw, 7rem);
   line-height: 0.9;
   font-weight: 900;
   letter-spacing: -0.04em;
   text-transform: uppercase;
   color: coral;
+}
+
+.name-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.55em;
+  height: 0.55em;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0.08em;
+  border: 2px solid coral;
+  border-radius: 6px;
+  background: #020d1a;
+  color: coral;
+  font-size: 0.28em;
+  line-height: 1;
+  font-weight: 900;
+  transform: translateY(-0.16em);
 }
 
 .content > p {
