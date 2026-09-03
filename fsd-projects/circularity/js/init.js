@@ -18,7 +18,90 @@ var init = function (window) {
     // TODO 1 : Declare and initialize our variables
     var circles = [];
     var baseCircleCount = 50;
-    var multiplierInput = document.getElementById("ball-multiplier");
+    var multiplierInput =
+      typeof document !== "undefined"
+        ? document.getElementById("ball-multiplier")
+        : null;
+    var shapeCycleButton =
+      typeof document !== "undefined"
+        ? document.getElementById("shape-cycle")
+        : null;
+    var shapeModes = [
+      "circle",
+      "square",
+      "triangle",
+      "rectangle",
+      "hexagon",
+      "lightning",
+      "mix",
+    ];
+    var shapeModeIndex = 0;
+
+    function getShapeName(index) {
+      if (shapeModes[shapeModeIndex] === "mix") {
+        return shapeModes[index % 6];
+      }
+      return shapeModes[shapeModeIndex];
+    }
+
+    function getRandomShapeColor() {
+      var red = Math.floor(80 + Math.random() * 176);
+      var green = Math.floor(80 + Math.random() * 176);
+      var blue = Math.floor(80 + Math.random() * 176);
+      return "rgb(" + red + ", " + green + ", " + blue + ")";
+    }
+
+    function drawCustomShape(shapeName) {
+      var shape = new window.createjs.Shape();
+      var graphics = shape.graphics;
+      var radius = 5 + Math.random() * 20;
+      var color = getRandomShapeColor();
+      var placementRadius = radius * 1.35;
+
+      graphics.beginFill(color).setStrokeStyle(2).beginStroke(color);
+      if (shapeName === "square") {
+        graphics.drawRect(-radius, -radius, radius * 2, radius * 2);
+      } else if (shapeName === "triangle") {
+        graphics
+          .moveTo(0, -radius)
+          .lineTo(radius, radius)
+          .lineTo(-radius, radius)
+          .closePath();
+      } else if (shapeName === "rectangle") {
+        graphics.drawRect(
+          -radius * 1.35,
+          -radius * 0.7,
+          radius * 2.7,
+          radius * 1.4,
+        );
+      } else if (shapeName === "hexagon") {
+        graphics.moveTo(radius, 0);
+        for (var side = 1; side <= 6; side++) {
+          var angle = (side * Math.PI) / 3;
+          graphics.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+        }
+        graphics.closePath();
+      } else {
+        graphics
+          .moveTo(-radius, -radius * 0.2)
+          .lineTo(-radius * 0.15, -radius * 0.2)
+          .lineTo(-radius * 0.45, -radius)
+          .lineTo(radius, 0)
+          .lineTo(radius * 0.15, 0)
+          .lineTo(radius * 0.45, radius)
+          .lineTo(-radius, -radius * 0.2)
+          .closePath();
+      }
+
+      shape.name = shapeName;
+      shape.radius = radius;
+      shape.x =
+        placementRadius + Math.random() * (canvas.width - placementRadius * 2);
+      shape.y =
+        placementRadius + Math.random() * (canvas.height - placementRadius * 2);
+      shape.alpha = 0.5 + Math.random() * 0.5;
+      return shape;
+    }
 
     function getBallMultiplier() {
       if (!multiplierInput) {
@@ -42,13 +125,18 @@ var init = function (window) {
 
       var totalCircles = baseCircleCount * getBallMultiplier();
       for (var j = 0; j < totalCircles; j++) {
-        drawCircle();
+        drawCircle(j);
       }
+      game.circles = circles;
     }
 
     // TODO 2 : Create a function that draws a circle
-    function drawCircle() {
-      var circle = draw.randomCircleInArea(canvas, true, true, "#999", 2);
+    function drawCircle(index) {
+      var shapeName = getShapeName(index || 0);
+      var circle =
+        shapeName === "circle"
+          ? draw.randomCircleInArea(canvas, true, true, "#999", 2)
+          : drawCustomShape(shapeName);
       physikz.addRandomVelocity(circle, canvas, 5, 5);
       view.addChild(circle);
       circles.push(circle);
@@ -65,6 +153,14 @@ var init = function (window) {
         if (value > 10) {
           multiplierInput.value = 10;
         }
+        rebuildCircles();
+      });
+    }
+
+    if (shapeCycleButton) {
+      shapeCycleButton.addEventListener("click", function () {
+        shapeModeIndex = (shapeModeIndex + 1) % shapeModes.length;
+        shapeCycleButton.textContent = "Shapes: " + shapeModes[shapeModeIndex];
         rebuildCircles();
       });
     }
