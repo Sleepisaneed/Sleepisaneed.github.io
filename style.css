@@ -720,7 +720,8 @@ nav h1 {
 
 #flappy-canvas,
 #arrow-canvas,
-#reaction-canvas {
+#reaction-canvas,
+#snake-canvas {
   display: block;
   width: 100%;
   height: auto;

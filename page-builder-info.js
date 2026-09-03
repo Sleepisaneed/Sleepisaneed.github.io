@@ -40,12 +40,14 @@ const pageInfo = {
   },
   portfolio: {
     title: "Portfolio page",
+    templateId: "portfolio-build-guide-additions",
     intro:
-      "This page combines a portfolio list with a mini-game scroller, so the user can browse projects and switch between games.",
+      "This page combines a portfolio list with a mini-game scroller featuring Flappy, Arrow Match, Reaction, and Snake.",
     pieces: [
       "A portfolio list on the left side of the page.",
       "A game section on the right with several slides.",
       "Previous and next buttons to move between games.",
+      "Four canvas mini games with separate controls, scores, and best-score storage.",
       "A small CSS trick that keeps only one slide visible at a time.",
     ],
     steps: [
@@ -53,6 +55,8 @@ const pageInfo = {
       "Hide every slide by default with CSS.",
       "Add one active class to the slide currently being shown.",
       "Use JavaScript to update the active class when a button is pressed.",
+      "Give each game its own canvas, scoreboard, state object, and input handler.",
+      "Use an animation loop for games that update continuously, and localStorage for best scores.",
     ],
     code: [
       {
@@ -75,6 +79,32 @@ const pageInfo = {
         label: "Score board",
         code: '<div class="game-scoreboard">\n  <div class="score-pill"><span>Score</span><strong id="game-score">0</strong></div>\n  <div class="score-pill"><span>Best</span><strong id="game-best">0</strong></div>\n</div>',
       },
+      {
+        label: "Flappy game loop",
+        code: 'function runFlappyLoop() {\n  bird.velocity += gravity;\n  bird.y += bird.velocity;\n  movePipes();\n  if (hitsPipeOrEdge()) endFlappyGame();\n  renderFlappy();\n  requestAnimationFrame(runFlappyLoop);\n}\n\ncanvas.addEventListener("click", flapBird);',
+        tip: "The bird uses velocity and gravity, while requestAnimationFrame keeps the canvas moving smoothly.",
+      },
+      {
+        label: "Arrow Match game",
+        code: 'function arrowLoop() {\n  spawnFallingArrow();\n  arrows.forEach((arrow) => {\n    arrow.y += arrow.speed;\n  });\n  renderArrowGame();\n  requestAnimationFrame(arrowLoop);\n}\n\nwindow.addEventListener("keydown", handleArrowPress);',
+        tip: "Each falling arrow stores a lane and symbol. The key handler compares it with the player key near the target line.",
+      },
+      {
+        label: "Reaction game timer",
+        code: 'function handleReactionClick() {\n  if (phase === "waiting") startCountdown();\n  if (phase === "active") {\n    score += 1;\n    scoreElement.textContent = score;\n  }\n}\n\nsetInterval(updateCountdownAndTime, 80);',
+        tip: "The reaction game changes phases from waiting to countdown to active, then records clicks until the ten-second round ends.",
+      },
+      {
+        label: "Snake game movement",
+        code: "function runSnakeLoop() {\n  const head = snake[0];\n  const nextHead = move(head, direction);\n  if (hitsWall(nextHead) || hitsSelf(nextHead)) endSnakeGame();\n  snake.unshift(nextHead);\n  if (eatsFood(nextHead)) {\n    score += 1;\n    placeSnakeFood();\n  } else snake.pop();\n  renderSnakeGame();\n}",
+        tip: "Snake advances one grid cell at a time. Eating keeps the tail growing; hitting a wall or the body ends the round.",
+      },
+      {
+        label: "Best score storage",
+        code: 'const best = Number(localStorage.getItem("snake-best") || 0);\n\nif (score > best) {\n  localStorage.setItem("snake-best", String(score));\n}',
+        tip: "Each game uses its own localStorage key so the best score survives a page refresh in the same browser.",
+      },
+      {}
     ],
   },
   gallery: {
@@ -139,7 +169,7 @@ const pageInfo = {
       },
       {
         label: "Card text styling",
-        code: '.schedule-box h2 { color: coral; }\n.schedule-box strong { color: white; }\n.schedule-box p { color: #ffe2d7; }',
+        code: ".schedule-box h2 { color: coral; }\n.schedule-box strong { color: white; }\n.schedule-box p { color: #ffe2d7; }",
       },
       {
         label: "Why it works",
@@ -179,6 +209,9 @@ function buildPageInfoMarkup(info) {
   `,
     )
     .join("");
+  const additions = info.templateId
+    ? document.getElementById(info.templateId)?.innerHTML || ""
+    : "";
 
   return `
     <div class="build-info-panel">
@@ -205,6 +238,8 @@ function buildPageInfoMarkup(info) {
         <h4>Very simplified code</h4>
         ${codeBlocks}
       </div>
+
+      ${additions}
     </div>
   `;
 }

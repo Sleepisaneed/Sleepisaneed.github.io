@@ -4,6 +4,8 @@ const arrowCanvas = document.getElementById("arrow-canvas");
 const arrowCtx = arrowCanvas.getContext("2d");
 const reactionCanvas = document.getElementById("reaction-canvas");
 const reactionCtx = reactionCanvas.getContext("2d");
+const snakeCanvas = document.getElementById("snake-canvas");
+const snakeCtx = snakeCanvas.getContext("2d");
 
 const scoreEl = document.getElementById("game-score");
 const bestEl = document.getElementById("game-best");
@@ -11,6 +13,8 @@ const arrowScoreEl = document.getElementById("arrow-score");
 const arrowStreakEl = document.getElementById("arrow-streak");
 const reactionScoreEl = document.getElementById("reaction-score");
 const reactionBestEl = document.getElementById("reaction-best");
+const snakeEl = document.getElementById("snake-score");
+const snakeBestEl = document.getElementById("snake-best");
 const resetBtn = document.getElementById("game-reset-btn");
 const prevBtn = document.getElementById("game-prev-btn");
 const nextBtn = document.getElementById("game-next-btn");
@@ -27,6 +31,7 @@ const keyMap = {
 let currentGameIndex = 0;
 let flappyLoopId = null;
 let arrowLoopId = null;
+let snakeLoopId = null;
 let reactionTimer = null;
 
 let flappyState = {
@@ -61,6 +66,16 @@ let reactionState = {
   startedAt: 0,
 };
 
+let snakeState = {
+  running: false,
+  direction: { x: 1, y: 0 },
+  nextDirection: { x: 1, y: 0 },
+  snake: [],
+  food: { x: 0, y: 0 },
+  score: 0,
+  best: Number(localStorage.getItem("snake-best") || 0),
+};
+
 function setActiveGame(index) {
   currentGameIndex = (index + slides.length) % slides.length;
   slides.forEach((slide, slideIndex) => {
@@ -76,6 +91,9 @@ function setActiveGame(index) {
   } else if (currentGameIndex === 2) {
     clearTimeout(reactionTimer);
     startReactionGame();
+  } else if (currentGameIndex === 3) {
+    clearTimeout(snakeLoopId);
+    startSnakeGame();
   }
 }
 
@@ -607,6 +625,196 @@ function handleReactionClick() {
   }
 }
 
+function snakeCellSize() {
+  return 20;
+}
+
+function placeSnakeFood() {
+  const columns = snakeCanvas.width / snakeCellSize();
+  const rows = snakeCanvas.height / snakeCellSize();
+  let food;
+
+  do {
+    food = {
+      x: Math.floor(Math.random() * columns),
+      y: Math.floor(Math.random() * rows),
+    };
+  } while (
+    snakeState.snake.some(
+      (segment) => segment.x === food.x && segment.y === food.y,
+    )
+  );
+
+  snakeState.food = food;
+}
+
+function renderSnakeGame() {
+  const cellSize = snakeCellSize();
+  snakeCtx.fillStyle = "#0a2337";
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+  snakeCtx.strokeStyle = "rgba(255, 226, 215, 0.08)";
+  snakeCtx.lineWidth = 1;
+
+  for (let x = 0; x <= snakeCanvas.width; x += cellSize) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(x, 0);
+    snakeCtx.lineTo(x, snakeCanvas.height);
+    snakeCtx.stroke();
+  }
+  for (let y = 0; y <= snakeCanvas.height; y += cellSize) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(0, y);
+    snakeCtx.lineTo(snakeCanvas.width, y);
+    snakeCtx.stroke();
+  }
+
+  snakeCtx.fillStyle = "#ff7f50";
+  snakeCtx.fillRect(
+    snakeState.food.x * cellSize + 3,
+    snakeState.food.y * cellSize + 3,
+    cellSize - 6,
+    cellSize - 6,
+  );
+
+  snakeState.snake.forEach((segment, index) => {
+    snakeCtx.fillStyle = index === 0 ? "#60d394" : "#2d9d78";
+    snakeCtx.fillRect(
+      segment.x * cellSize + 2,
+      segment.y * cellSize + 2,
+      cellSize - 4,
+      cellSize - 4,
+    );
+  });
+
+  if (!snakeState.running) {
+    snakeCtx.fillStyle = "rgba(2, 13, 26, 0.52)";
+    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+    snakeCtx.fillStyle = "#ffe2d7";
+    snakeCtx.font = "bold 26px Arial";
+    snakeCtx.textAlign = "center";
+    snakeCtx.fillText(
+      "Click or press an arrow",
+      snakeCanvas.width / 2,
+      snakeCanvas.height / 2 - 8,
+    );
+    snakeCtx.font = "bold 16px Arial";
+    snakeCtx.fillText(
+      "Eat the Mangoes",
+      snakeCanvas.width / 2,
+      snakeCanvas.height / 2 + 22,
+    );
+  }
+}
+
+function resetSnakeGame() {
+  snakeState = {
+    running: false,
+    direction: { x: 1, y: 0 },
+    nextDirection: { x: 1, y: 0 },
+    snake: [
+      { x: 10, y: 7 },
+      { x: 9, y: 7 },
+      { x: 8, y: 7 },
+    ],
+    food: { x: 15, y: 7 },
+    score: 0,
+    best: Number(localStorage.getItem("snake-best") || 0),
+  };
+  snakeEl.textContent = "0";
+  snakeBestEl.textContent = String(snakeState.best);
+  renderSnakeGame();
+}
+
+function startSnakeGame() {
+  clearTimeout(snakeLoopId);
+  resetSnakeGame();
+  snakeState.running = true;
+  runSnakeLoop();
+}
+
+function endSnakeGame() {
+  snakeState.running = false;
+  if (snakeState.score > snakeState.best) {
+    snakeState.best = snakeState.score;
+    localStorage.setItem("snake-best", String(snakeState.best));
+    snakeBestEl.textContent = String(snakeState.best);
+  }
+  renderSnakeGame();
+}
+
+function runSnakeLoop() {
+  if (currentGameIndex !== 3 || !snakeState.running) {
+    renderSnakeGame();
+    return;
+  }
+
+  snakeState.direction = snakeState.nextDirection;
+  const head = snakeState.snake[0];
+  const nextHead = {
+    x: head.x + snakeState.direction.x,
+    y: head.y + snakeState.direction.y,
+  };
+  const columns = snakeCanvas.width / snakeCellSize();
+  const rows = snakeCanvas.height / snakeCellSize();
+  const hitWall =
+    nextHead.x < 0 ||
+    nextHead.x >= columns ||
+    nextHead.y < 0 ||
+    nextHead.y >= rows;
+  const hitSelf = snakeState.snake.some(
+    (segment) => segment.x === nextHead.x && segment.y === nextHead.y,
+  );
+
+  if (hitWall || hitSelf) {
+    endSnakeGame();
+    return;
+  }
+
+  snakeState.snake.unshift(nextHead);
+  if (nextHead.x === snakeState.food.x && nextHead.y === snakeState.food.y) {
+    snakeState.score += 1;
+    snakeEl.textContent = String(snakeState.score);
+    if (snakeState.score > snakeState.best) {
+      snakeState.best = snakeState.score;
+      localStorage.setItem("snake-best", String(snakeState.best));
+      snakeBestEl.textContent = String(snakeState.best);
+    }
+    placeSnakeFood();
+  } else {
+    snakeState.snake.pop();
+  }
+
+  renderSnakeGame();
+  snakeLoopId = setTimeout(() => requestAnimationFrame(runSnakeLoop), 115);
+}
+
+function handleSnakeDirection(event) {
+  if (currentGameIndex !== 3) {
+    return;
+  }
+
+  const requested = {
+    ArrowUp: { x: 0, y: -1 },
+    ArrowDown: { x: 0, y: 1 },
+    ArrowLeft: { x: -1, y: 0 },
+    ArrowRight: { x: 1, y: 0 },
+  }[event.key];
+
+  if (
+    !requested ||
+    (requested.x === -snakeState.direction.x &&
+      requested.y === -snakeState.direction.y)
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+  if (!snakeState.running) {
+    startSnakeGame();
+  }
+  snakeState.nextDirection = requested;
+}
+
 function resetCurrentGame() {
   if (currentGameIndex === 0) {
     startFlappyGame();
@@ -614,6 +822,8 @@ function resetCurrentGame() {
     startArrowGame();
   } else if (currentGameIndex === 2) {
     resetReactionGame();
+  } else if (currentGameIndex === 3) {
+    startSnakeGame();
   }
 }
 
@@ -629,10 +839,15 @@ function handleCanvasClick() {
   if (currentGameIndex === 2) {
     handleReactionClick();
   }
+
+  if (currentGameIndex === 3 && !snakeState.running) {
+    startSnakeGame();
+  }
 }
 
 flappyCanvas.addEventListener("click", handleCanvasClick);
 reactionCanvas.addEventListener("click", handleCanvasClick);
+snakeCanvas.addEventListener("click", handleCanvasClick);
 window.addEventListener("keydown", (event) => {
   if (event.code === "Space" && currentGameIndex === 0) {
     event.preventDefault();
@@ -642,6 +857,8 @@ window.addEventListener("keydown", (event) => {
   if (currentGameIndex === 1) {
     handleArrowPress(event);
   }
+
+  handleSnakeDirection(event);
 });
 
 prevBtn.addEventListener("click", () => setActiveGame(currentGameIndex - 1));
@@ -655,3 +872,4 @@ setActiveGame(0);
 resetFlappyGame();
 renderArrowGame();
 renderReactionGame();
+resetSnakeGame();
