@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-Print: 3D Prints</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="space-background.js" defer></script>
+  <script src="gallery-background.js" defer></script>
+</head>
+
+<body data-page="prints">
+  <div id="all-contents">
+    <div class="print-dashboard">
+      <aside class="print-sidebar">
+        <a class="print-brand" href="3d-print.html"><span class="print-brand-mark">M</span><span>M-Print</span></a>
+        <p class="print-sidebar-label">Workspace</p>
+        <nav class="print-nav" aria-label="3D print workspace">
+          <a class="print-nav-link active" href="#projects">Projects</a>
+          <a class="print-nav-link" href="#process">Print process</a>
+          <a class="print-nav-link" href="#printer">Printer status</a>
+        </nav>
+        <div class="print-sidebar-rule"></div>
+        <p class="print-sidebar-label">Site</p>
+        <nav class="print-nav" aria-label="Site navigation">
+          <a class="print-nav-link" href="index.html">Home</a>
+          <a class="print-nav-link" href="portfolio.html">Portfolio</a>
+          <a class="print-nav-link" href="third-page.html">Gallery</a>
+          <a class="print-nav-link" href="schedule.html">Schedule</a>
+        </nav>
+        <div class="print-sidebar-footer"><span class="status-light" aria-hidden="true"></span><span>Printer ready</span></div>
+      </aside>
+
+      <main class="print-workspace">
+        <header class="print-topbar">
+          <div><p class="eyebrow">3D print workspace</p><h1>Projects</h1></div>
+          <div class="print-top-actions">
+            <label class="print-search"><span aria-hidden="true">S</span><input id="print-search-input" type="search" placeholder="Search projects" aria-label="Search projects"></label>
+            <a class="print-new-button" id="new-project-button" href="https://www.tinkercad.com/things/eO1W6VFJFAB/edit?returnTo=%2Fdashboard" target="_blank" rel="noopener noreferrer">+ New project</a>
+          </div>
+        </header>
+
+        <section class="print-summary" aria-label="Workspace summary">
+          <div><span>Active projects</span><strong>03</strong></div>
+          <div><span>Print-ready</span><strong>02</strong></div>
+          <div><span>Material</span><strong>PLA</strong></div>
+        </section>
+
+        <section class="print-project-section" id="projects">
+          <div class="print-section-heading"><div><p class="eyebrow">Your workspace</p><h2>Recent projects</h2></div><button class="print-view-button" type="button">View all</button></div>
+          <div class="print-project-grid" id="print-project-grid">
+            <article class="print-project-card featured-project">
+              <div class="project-preview preview-cube" aria-hidden="true"><span></span></div>
+              <div class="project-card-body"><div class="project-card-title"><h3>Desk organizer</h3><span class="project-status ready">Ready</span></div><p>Practical print for a calmer workspace.</p><div class="project-card-meta"><span>PLA</span><span>1h 42m</span></div></div>
+            </article>
+            <article class="print-project-card">
+              <div class="project-preview preview-spool" aria-hidden="true"><span></span></div>
+              <div class="project-card-body"><div class="project-card-title"><h3>Spool holder</h3><span class="project-status printing">Printing</span></div><p>A stable home for the next roll of filament.</p><div class="project-card-meta"><span>PETG</span><span>68%</span></div></div>
+            </article>
+            <article class="print-project-card">
+              <div class="project-preview preview-figure" aria-hidden="true"><span></span></div>
+              <div class="project-card-body"><div class="project-card-title"><h3>Mini figure</h3><span class="project-status draft">Draft</span></div><p>A small experiment in shape and detail.</p><div class="project-card-meta"><span>PLA</span><span>Not sliced</span></div></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="print-lower-grid">
+          <section class="print-process-panel" id="process">
+            <div class="print-section-heading"><div><p class="eyebrow">From idea to object</p><h2>Print process</h2></div></div>
+            <ol class="print-process-list">
+              <li><span>01</span><div><h3>Design</h3><p>Shape the idea and check the details.</p></div></li>
+              <li><span>02</span><div><h3>Prepare</h3><p>Slice the model and choose the material.</p></div></li>
+              <li><span>03</span><div><h3>Print</h3><p>Build it one careful layer at a time.</p></div></li>
+            </ol>
+          </section>
+          <aside class="print-console" id="printer">
+            <div class="console-header"><span class="status-light" aria-hidden="true"></span><span>Printer status</span></div>
+            <div class="console-display"><span class="console-label">Current project</span><strong>Desk organizer</strong><span class="console-value">Ready to print</span></div>
+            <div class="console-stats"><div><span>Material</span><strong>PLA</strong></div><div><span>Layer height</span><strong>0.20 mm</strong></div><div><span>Build space</span><strong>Ready</strong></div></div>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script>
+    const searchInput = document.querySelector('#print-search-input');
+    const projectCards = document.querySelectorAll('.print-project-card');
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      projectCards.forEach((card) => {
+        card.hidden = !card.textContent.toLowerCase().includes(query);
+      });
+    });
+  </script>
+</body>
+
+</html>

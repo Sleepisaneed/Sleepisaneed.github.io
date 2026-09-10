@@ -104,7 +104,7 @@ const pageInfo = {
         code: 'const best = Number(localStorage.getItem("snake-best") || 0);\n\nif (score > best) {\n  localStorage.setItem("snake-best", String(score));\n}',
         tip: "Each game uses its own localStorage key so the best score survives a page refresh in the same browser.",
       },
-      {}
+      {},
     ],
   },
   gallery: {
