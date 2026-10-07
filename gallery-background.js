@@ -1,7 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const body = document.body;
+
+  if (body.dataset.page !== "gallery") {
+    return;
+  }
+
   const galleryFigures = document.querySelectorAll(".image-gallery figure");
   const resetButton = document.getElementById("gallery-reset-btn");
-  const body = document.body;
 
   const clearBackground = () => {
     localStorage.removeItem("siteBackgroundImage");

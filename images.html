@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-Print: Images</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="space-background.js" defer></script>
+  <script src="gallery-background.js" defer></script>
+</head>
+
+<body data-page="images">
+  <div id="all-contents">
+    <nav>
+      <h1>M-Print: Images</h1>
+      <ul id="nav-ul">
+        <li class="nav-li"><a href="index.html">Home</a></li>
+        <li class="nav-li"><a href="portfolio.html">Portfolio</a></li>
+        <li class="nav-li"><a href="third-page.html">Gallery</a></li>
+        <li class="nav-li"><a href="images.html">Images</a></li>
+        <li class="nav-li"><a href="schedule.html">Schedule</a></li>
+      </ul>
+    </nav>
+
+    <main class="gallery-layout">
+      <section class="gallery-intro">
+        <h1>Image Collection</h1>
+        <p>Selected moments and visual moments i've captured.</p>
+
+        <div class="image-gallery" aria-label="Image gallery">
+          <figure>
+          <img src="assets/IMG_7981.JPG" alt="the first photo in the collection">
+            <figcaption>The final battel</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/IMG_7584.JPG" alt="A second photo in the collection">
+            <figcaption>Rope staircase</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/IMG_7587.JPG" alt="A third photo in the collection">
+            <figcaption>Freedom</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/IMG_7602.JPG" alt="A fourth photo in the collection">
+            <figcaption>The good days</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/IMG_7988.JPG" alt="A fifth photo in the collection">
+            <figcaption>A great loss</figcaption>
+          </figure>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="imageModal" class="modal" aria-hidden="true">
+    <span class="close" aria-label="Close image viewer">&times;</span>
+    <span class="modal-arrow left" aria-label="Previous image">&#10094;</span>
+    <img class="modal-content" id="modalImg" alt="Full-size preview">
+    <span class="modal-arrow right" aria-label="Next image">&#10095;</span>
+  </div>
+
+  <script>
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeBtn = document.querySelector('.close');
+    const leftArrow = document.querySelector('.modal-arrow.left');
+    const rightArrow = document.querySelector('.modal-arrow.right');
+    const images = Array.from(document.querySelectorAll('.image-gallery img'));
+    let currentIndex = 0;
+
+    function showModal(index) {
+      currentIndex = index;
+      modal.style.display = 'block';
+      modal.setAttribute('aria-hidden', 'false');
+      modalImg.src = images[index].src;
+      modalImg.alt = images[index].alt;
+    }
+
+    images.forEach((img, idx) => {
+      img.addEventListener('click', () => showModal(idx));
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      modalImg.src = '';
+    });
+
+    leftArrow.addEventListener('click', (event) => {
+      event.stopPropagation();
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showModal(currentIndex);
+    });
+
+    rightArrow.addEventListener('click', (event) => {
+      event.stopPropagation();
+      currentIndex = (currentIndex + 1) % images.length;
+      showModal(currentIndex);
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modalImg.src = '';
+      }
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (modal.style.display !== 'block') {
+        return;
+      }
+
+      if (event.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showModal(currentIndex);
+      } else if (event.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % images.length;
+        showModal(currentIndex);
+      } else if (event.key === 'Escape') {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modalImg.src = '';
+      }
+    });
+  </script>
+
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(2, 13, 26, 0.82);
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-content {
+      display: block;
+      margin: 7vh auto 0;
+      max-width: min(90vw, 1100px);
+      max-height: 78vh;
+      width: auto;
+      height: auto;
+      border-radius: 18px;
+      border: 2px solid coral;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .close {
+      position: absolute;
+      top: 28px;
+      right: 36px;
+      color: coral;
+      font-size: 3rem;
+      line-height: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .close:hover,
+    .modal-arrow:hover {
+      color: #fff;
+    }
+
+    .modal-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: coral;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      cursor: pointer;
+      user-select: none;
+      padding: 0 14px;
+    }
+
+    .modal-arrow.left {
+      left: 24px;
+    }
+
+    .modal-arrow.right {
+      right: 24px;
+    }
+
+    @media (max-width: 700px) {
+      .gallery-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .image-gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .image-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .close {
+        top: 16px;
+        right: 18px;
+      }
+
+      .modal-arrow.left {
+        left: 8px;
+      }
+
+      .modal-arrow.right {
+        right: 8px;
+      }
+    }
+  </style>
+</body>
+
+</html>
