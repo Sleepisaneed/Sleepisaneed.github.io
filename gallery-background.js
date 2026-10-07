@@ -1,13 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
-
-  if (body.dataset.page !== "gallery") {
-    return;
-  }
-
-  const galleryFigures = document.querySelectorAll(".image-gallery figure");
-  const resetButton = document.getElementById("gallery-reset-btn");
-
   const clearBackground = () => {
     localStorage.removeItem("siteBackgroundImage");
     body.style.backgroundImage = "";
@@ -31,6 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (storedImage) {
     setBackground(storedImage);
   }
+
+  if (body.dataset.page !== "gallery") {
+    return;
+  }
+
+  const galleryFigures = document.querySelectorAll(".image-gallery figure");
+  const resetButton = document.getElementById("gallery-reset-btn");
 
   galleryFigures.forEach((figure) => {
     const image = figure.querySelector("img");
