@@ -142,6 +142,37 @@ const pageInfo = {
       },
     ],
   },
+  images: {
+    title: "Image collection page",
+    intro:
+      "This page displays a collection of photographs in a responsive grid, with a modal viewer for browsing them.",
+    pieces: [
+      "A grid of photographs, each loaded from the assets folder.",
+      "A responsive layout that places images in rows.",
+      "A modal viewer that opens a larger image when a photo is clicked.",
+      "Previous and next controls, plus Escape and close actions for the viewer.",
+    ],
+    steps: [
+      "Add each photo as an image inside a figure element.",
+      "Use CSS Grid to arrange the figures in rows and adapt the number of columns on smaller screens.",
+      "Collect the gallery images with JavaScript and open the clicked image in a modal.",
+      "Update the modal image when the user selects the previous or next control.",
+    ],
+    code: [
+      {
+        label: "Gallery images",
+        code: '<div class="image-gallery">\n  <figure>\n    <img src="assets/photo.jpg" alt="A photo in the collection">\n  </figure>\n</div>',
+      },
+      {
+        label: "Responsive image grid",
+        code: ".image-gallery {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 16px;\n}\n\n.image-gallery img {\n  width: 100%;\n  aspect-ratio: 4 / 3;\n  object-fit: cover;\n}",
+      },
+      {
+        label: "Opening a photo in the modal",
+        code: 'const images = Array.from(document.querySelectorAll(".image-gallery img"));\n\nimages.forEach((img, index) => {\n  img.addEventListener("click", () => showModal(index));\n});',
+      },
+    ],
+  },
   schedule: {
     title: "Schedule page",
     intro:
