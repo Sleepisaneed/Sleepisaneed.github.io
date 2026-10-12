@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play a friendly two-dice game, earn M-Points, and save your progress. No real money involved.">
+  <title>M-Print: Dice Game</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dice-game.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="space-background.js" defer></script>
+  <script src="m-points.js" defer></script>
+  <script src="dice-game.js" defer></script>
+</head>
+
+<body data-page="dice">
+  <div id="all-contents">
+    <nav>
+      <h1>M-Print: Dice Game</h1>
+      <ul id="nav-ul">
+        <li class="nav-li"><a href="index.html">Home</a></li>
+        <li class="nav-li"><a href="portfolio.html">Portfolio</a></li>
+        <li class="nav-li"><a href="dice.html" aria-current="page">Dice Game</a></li>
+        <li class="nav-li"><a href="third-page.html">Gallery</a></li>
+        <li class="nav-li"><a href="schedule.html">Schedule</a></li>
+        <li class="nav-li"><a href="images.html">Images</a></li>
+        <li class="nav-li"><a href="https://www.tinkercad.com/dashboard/designs/all" target="_blank"
+            rel="noopener noreferrer">3D Prints</a></li>
+        <li class="nav-points" aria-label="M-Points balance">
+          <span>M-Points</span>
+          <strong data-m-points aria-live="polite">100</strong>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="dice-page">
+      <header class="dice-intro">
+        <p class="dice-eyebrow">A little luck, a lot of fun</p>
+        <h2>Roll the <span>odds.</span></h2>
+        <p class="dice-lede">Choose a total to bet on, set your M-Points wager, and roll two dice.</p>
+        <p class="play-money-note">Play for fun only · No real money or prizes</p>
+      </header>
+
+      <div class="dice-layout">
+        <section class="dice-console" aria-labelledby="game-heading">
+          <div class="dice-console-top">
+            <div>
+              <p class="dice-eyebrow">Two dice · one roll</p>
+              <h3 id="game-heading">Pick Your Total</h3>
+            </div>
+            <div class="dice-balance">
+              <span>M-Points</span>
+              <strong id="credit-balance" aria-live="polite">100</strong>
+            </div>
+          </div>
+          <p class="currency-note">Your M-Points are saved on this device.</p>
+
+          <div class="dice-stage">
+            <div class="dice-tray" aria-label="Dice results">
+              <div class="die" id="die-one" data-value="1" role="img" aria-label="Die one: 1">
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span>
+              </div>
+              <div class="die" id="die-two" data-value="1" role="img" aria-label="Die two: 1">
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span><span class="die-pip" aria-hidden="true"></span>
+                <span class="die-pip" aria-hidden="true"></span>
+              </div>
+            </div>
+            <p class="dice-total">Total <strong id="dice-total">--</strong></p>
+          </div>
+
+          <form id="dice-form" class="dice-controls">
+            <fieldset class="target-picker">
+              <legend>Pick the total you're betting on</legend>
+              <p class="target-hint">Two dice can total 2–12. You can't bet on 7 or 11.</p>
+              <div class="target-options">
+                <label class="target-option">
+                  <input type="radio" name="target" value="2" required>
+                  <span>2 <small>2×</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="3">
+                  <span>3 <small>4×</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="4">
+                  <span>4 <small>4×</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="5">
+                  <span>5 <small>4×</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="6">
+                  <span>6 <small>4×</small></span>
+                </label>
+                <label class="target-option is-unavailable" aria-label="7: betting is not allowed">
+                  <input type="radio" name="target" value="7" disabled>
+                  <span>7 <small>Out</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="8">
+                  <span>8 <small>4×</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="9">
+                  <span>9 <small>4×</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="10">
+                  <span>10 <small>4×</small></span>
+                </label>
+                <label class="target-option is-unavailable" aria-label="11: betting is not allowed">
+                  <input type="radio" name="target" value="11" disabled>
+                  <span>11 <small>Out</small></span>
+                </label>
+                <label class="target-option">
+                  <input type="radio" name="target" value="12">
+                  <span>12 <small>4×</small></span>
+                </label>
+              </div>
+            </fieldset>
+            <label for="wager">M-Points wager <span>(1–25 per roll)</span></label>
+            <div class="wager-row">
+              <input id="wager" name="wager" type="number" min="1" max="25" step="1" value="10" required>
+              <button id="roll-button" class="roll-button" type="submit">Roll the dice</button>
+            </div>
+            <p id="wager-hint" class="wager-hint">Choose a total and wager between 1 and 25 M-Points.</p>
+          </form>
+
+          <div class="dice-result" id="dice-result" role="status" aria-live="polite" aria-atomic="true">
+            Choose a total, place your wager, and roll to start.
+          </div>
+
+          <div class="dice-stats" aria-label="Game statistics">
+            <div><span>Rounds</span><strong id="round-count">0</strong></div>
+            <div><span>Wins</span><strong id="win-count">0</strong></div>
+            <div><span>Losses</span><strong id="loss-count">0</strong></div>
+          </div>
+
+          <div class="dice-extra-actions">
+            <div>
+              <button id="daily-bonus" class="daily-bonus" type="button">Claim daily +25 M-Points</button>
+              <p id="daily-bonus-status" class="daily-bonus-status" aria-live="polite">
+                Come back each day to collect a free points bonus.
+              </p>
+            </div>
+            <button id="reset-game" class="reset-game" type="button">Reset stats and history</button>
+          </div>
+        </section>
+
+        <aside class="dice-rules" aria-labelledby="rules-heading">
+          <p class="dice-eyebrow">How to play</p>
+          <h3 id="rules-heading">The pay table</h3>
+          <p>Choose one total and wager points on each roll. Match your number to win its payout; a different safe total loses your wager but the game continues.</p>
+          <ul class="payout-list">
+            <li><span>Bet on 2 <small>(snake eyes)</small></span><strong>2× back</strong></li>
+            <li><span>Bet on 3, 4, 5, 6, 8, 9, 10, or 12</span><strong>4× back</strong></li>
+            <li><span>Roll a number other than your bet</span><strong>Lose wager</strong></li>
+            <li><span>Roll 7 or 11</span><strong>Lose + new game</strong></li>
+          </ul>
+          <p class="dice-footnote">On a match, “back” includes your wager. Rolling 7 or 11 ends the current run and starts a new game. M-Points have no cash value.</p>
+        </aside>
+      </div>
+
+      <section class="recent-rolls" aria-labelledby="recent-heading">
+        <h3 id="recent-heading">Recent rolls</h3>
+        <ol id="roll-history" class="roll-history">
+          <li class="history-empty">Your rolls will show up here.</li>
+        </ol>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>

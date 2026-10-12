@@ -1333,9 +1333,32 @@ nav h1 {
 #nav-ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin: 0;
   padding: 0;
+}
+
+.nav-points {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(2, 13, 26, 0.35);
+  border-radius: 8px;
+  color: #020d1a;
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.nav-points strong {
+  min-width: 2ch;
+  color: #063b2f;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .nav-li a {
