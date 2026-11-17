@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Che-SSS | M-Print</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="CheSSS.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="space-background.js" defer></script>
+  <script src="gallery-background.js" defer></script>
+  <script src="CheSSS.js" defer></script>
+</head>
+
+<body data-page="chess">
+  <svg class="chess-sprite-library" aria-hidden="true">
+    <symbol id="pixel-pawn" viewBox="0 0 16 16" shape-rendering="crispEdges">
+      <g fill="var(--piece-outline)">
+        <rect x="7" y="1" width="2" height="1" />
+        <rect x="6" y="2" width="4" height="1" />
+        <rect x="5" y="3" width="6" height="2" />
+        <rect x="6" y="5" width="4" height="2" />
+        <rect x="4" y="7" width="8" height="1" />
+        <rect x="3" y="8" width="10" height="3" />
+        <rect x="4" y="11" width="8" height="1" />
+        <rect x="2" y="12" width="12" height="1" />
+        <rect x="1" y="13" width="14" height="2" />
+      </g>
+      <g fill="var(--piece-main)">
+        <rect x="6" y="3" width="4" height="2" />
+        <rect x="7" y="5" width="2" height="2" />
+        <rect x="5" y="8" width="6" height="3" />
+        <rect x="4" y="12" width="8" height="1" />
+        <rect x="3" y="13" width="10" height="1" />
+      </g>
+      <g fill="var(--piece-highlight)">
+        <rect x="6" y="3" width="1" height="1" />
+        <rect x="5" y="8" width="2" height="1" />
+      </g>
+      <rect x="9" y="9" width="2" height="2" fill="var(--piece-shade)" />
+    </symbol>
+
+    <symbol id="pixel-rook" viewBox="0 0 16 16" shape-rendering="crispEdges">
+      <g fill="var(--piece-outline)">
+        <rect x="2" y="1" width="3" height="3" />
+        <rect x="7" y="1" width="3" height="3" />
+        <rect x="12" y="1" width="2" height="3" />
+        <rect x="3" y="4" width="10" height="6" />
+        <rect x="4" y="10" width="8" height="2" />
+        <rect x="2" y="12" width="12" height="1" />
+        <rect x="1" y="13" width="14" height="2" />
+      </g>
+      <g fill="var(--piece-main)">
+        <rect x="3" y="2" width="1" height="1" />
+        <rect x="8" y="2" width="1" height="1" />
+        <rect x="12" y="2" width="1" height="1" />
+        <rect x="5" y="4" width="6" height="6" />
+        <rect x="4" y="10" width="8" height="1" />
+        <rect x="3" y="13" width="10" height="1" />
+      </g>
+      <g fill="var(--piece-highlight)">
+        <rect x="5" y="5" width="2" height="1" />
+        <rect x="4" y="10" width="2" height="1" />
+      </g>
+      <rect x="10" y="7" width="1" height="2" fill="var(--piece-shade)" />
+    </symbol>
+
+    <symbol id="pixel-knight" viewBox="0 0 16 16" shape-rendering="crispEdges">
+      <g fill="var(--piece-outline)">
+        <rect x="3" y="12" width="12" height="1" />
+        <rect x="2" y="13" width="14" height="2" />
+        <path d="M3 12V9h2V6H3V4h3V2h5v2h2v3h2v3h-3v2z" />
+      </g>
+      <g fill="var(--piece-main)">
+        <path d="M5 11V8h2V6H5V4h3V3h2v2h2v3h1v1h-3v2z" />
+        <rect x="4" y="13" width="10" height="1" />
+      </g>
+      <g fill="var(--piece-highlight)">
+        <rect x="6" y="4" width="2" height="1" />
+        <rect x="7" y="6" width="2" height="1" />
+        <rect x="4" y="13" width="3" height="1" />
+      </g>
+      <rect x="10" y="5" width="1" height="1" fill="var(--piece-outline)" />
+      <path d="M5 7h2v1H5z" fill="var(--piece-accent)" />
+      <rect x="8" y="9" width="3" height="2" fill="var(--piece-shade)" />
+    </symbol>
+
+    <symbol id="pixel-bishop" viewBox="0 0 16 16" shape-rendering="crispEdges">
+      <g fill="var(--piece-outline)">
+        <rect x="7" y="1" width="2" height="1" />
+        <rect x="6" y="2" width="4" height="1" />
+        <rect x="5" y="3" width="6" height="2" />
+        <rect x="6" y="5" width="4" height="2" />
+        <rect x="4" y="7" width="8" height="1" />
+        <rect x="3" y="8" width="10" height="3" />
+        <rect x="4" y="11" width="8" height="1" />
+        <rect x="2" y="12" width="12" height="1" />
+        <rect x="1" y="13" width="14" height="2" />
+      </g>
+      <g fill="var(--piece-main)">
+        <rect x="7" y="2" width="2" height="1" />
+        <rect x="6" y="3" width="4" height="2" />
+        <rect x="7" y="5" width="2" height="2" />
+        <rect x="5" y="8" width="6" height="3" />
+        <rect x="4" y="12" width="8" height="1" />
+        <rect x="3" y="13" width="10" height="1" />
+      </g>
+      <path d="M9 3h1v2H9zM8 5h1v2H8z" fill="var(--piece-accent)" />
+      <rect x="5" y="8" width="2" height="1" fill="var(--piece-highlight)" />
+      <rect x="9" y="9" width="2" height="2" fill="var(--piece-shade)" />
+    </symbol>
+
+    <symbol id="pixel-queen" viewBox="0 0 16 16" shape-rendering="crispEdges">
+      <g fill="var(--piece-outline)">
+        <rect x="2" y="1" width="2" height="2" />
+        <rect x="7" y="1" width="2" height="2" />
+        <rect x="12" y="1" width="2" height="2" />
+        <rect x="3" y="3" width="10" height="2" />
+        <rect x="5" y="5" width="6" height="2" />
+        <rect x="4" y="7" width="8" height="4" />
+        <rect x="3" y="11" width="10" height="1" />
+        <rect x="2" y="12" width="12" height="1" />
+        <rect x="1" y="13" width="14" height="2" />
+      </g>
+      <g fill="var(--piece-main)">
+        <rect x="3" y="2" width="1" height="1" />
+        <rect x="8" y="2" width="1" height="1" />
+        <rect x="12" y="2" width="1" height="1" />
+        <rect x="4" y="4" width="8" height="1" />
+        <rect x="6" y="5" width="4" height="2" />
+        <rect x="5" y="8" width="6" height="3" />
+        <rect x="3" y="12" width="10" height="1" />
+        <rect x="3" y="13" width="10" height="1" />
+      </g>
+      <g fill="var(--piece-highlight)">
+        <rect x="4" y="4" width="2" height="1" />
+        <rect x="5" y="8" width="2" height="1" />
+      </g>
+      <rect x="9" y="9" width="2" height="2" fill="var(--piece-shade)" />
+      <rect x="7" y="6" width="2" height="1" fill="var(--piece-accent)" />
+    </symbol>
+
+    <symbol id="pixel-king" viewBox="0 0 16 16" shape-rendering="crispEdges">
+      <g fill="var(--piece-outline)">
+        <rect x="7" y="1" width="3" height="1" />
+        <rect x="8" y="0" width="1" height="4" />
+        <rect x="5" y="4" width="7" height="2" />
+        <rect x="4" y="6" width="9" height="5" />
+        <rect x="3" y="11" width="10" height="1" />
+        <rect x="2" y="12" width="12" height="1" />
+        <rect x="1" y="13" width="14" height="2" />
+      </g>
+      <g fill="var(--piece-main)">
+        <rect x="8" y="1" width="1" height="2" />
+        <rect x="6" y="5" width="5" height="1" />
+        <rect x="5" y="7" width="7" height="4" />
+        <rect x="3" y="12" width="10" height="1" />
+        <rect x="3" y="13" width="10" height="1" />
+      </g>
+      <g fill="var(--piece-highlight)">
+        <rect x="6" y="5" width="2" height="1" />
+        <rect x="5" y="7" width="2" height="1" />
+      </g>
+      <rect x="10" y="9" width="2" height="2" fill="var(--piece-shade)" />
+      <rect x="8" y="4" width="1" height="1" fill="var(--piece-accent)" />
+    </symbol>
+  </svg>
+
+  <div id="all-contents">
+    <nav>
+      <h1>M-Print: Che-SSS</h1>
+      <ul id="nav-ul">
+        <li class="nav-li"><a href="index.html">Home</a></li>
+        <li class="nav-li"><a href="portfolio.html">Portfolio</a></li>
+      </ul>
+    </nav>
+
+    <main class="chess-page">
+      <header class="chess-hero">
+        <p class="chess-eyebrow">A pixel-sized strategy set</p>
+        <h2>Che-SSS</h2>
+        <p>Meet the six chess pieces in a tiny pixel-art world. Play Light against the computer-controlled Dark side.</p>
+      </header>
+
+      <section class="chess-board-card" aria-labelledby="board-title">
+        <div class="chess-section-heading">
+          <div>
+            <p class="chess-eyebrow">The opening position</p>
+            <h3 id="board-title">Pixel Chessboard</h3>
+          </div>
+          <div class="board-heading-actions">
+            <span class="board-tag">8 × 8</span>
+            <label for="ai-difficulty">AI level</label>
+            <select id="ai-difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <button id="reset-chess" type="button">Reset game</button>
+          </div>
+        </div>
+
+        <div class="chessboard-frame">
+          <div class="rank-coordinates" aria-hidden="true">
+            <span>8</span><span>7</span><span>6</span><span>5</span>
+            <span>4</span><span>3</span><span>2</span><span>1</span>
+          </div>
+          <div id="chessboard" class="chessboard" role="grid" aria-label="Chessboard"></div>
+          <div class="file-coordinates" aria-hidden="true">
+            <span>a</span><span>b</span><span>c</span><span>d</span>
+            <span>e</span><span>f</span><span>g</span><span>h</span>
+          </div>
+        </div>
+        <p id="chess-status" class="chess-status" role="status" aria-live="polite">You play Light. The computer plays Dark. Light to move.</p>
+        <p class="board-caption">Click a piece then a square, or drag it to move. Illegal moves return the piece to its square. Pawns promote to queens.</p>
+      </section>
+
+      <section class="piece-set" aria-labelledby="piece-set-title">
+        <div class="chess-section-heading">
+          <div>
+            <p class="chess-eyebrow">Six silhouettes, two sides</p>
+            <h3 id="piece-set-title">The Pixel Piece Set</h3>
+          </div>
+        </div>
+        <div id="piece-gallery" class="piece-gallery"></div>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>
